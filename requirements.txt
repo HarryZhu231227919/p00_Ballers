@@ -1,0 +1,4 @@
+What you would need:
+  * Flask
+  * sqlite
+  * All package much be up to date
