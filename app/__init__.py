@@ -36,7 +36,7 @@ def authenticate():
         if(correctuser == request.form['username'] and correctpw == request.form['password']):
             return render_template('response.html', username = request.form['username'], password = request.form['password'], request_method = 'POST') #response to a form submission
         else:
-            return render_template('/static/templates/login.html', exception =  "Try again") 
+            return render_template('login.html', exception =  "Try again") 
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
