@@ -13,4 +13,4 @@ seamlessly and can edit/push new contents.
 How to Clone/Install:
   * Pull our GitHub, the codes are all there and public
   * Download Flask and Sqlite using pip install
-  * To run do python3 __init__.py
+  * To run do python3 `__init__.py`
