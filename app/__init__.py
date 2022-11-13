@@ -1,8 +1,8 @@
 # Ballers:: Shreya Roy, Jian Hong Li, Harry Zhu
 # SoftDev pd8
-# K19: session
-# 2022-11-7
-# time spent: 2.5 hours
+# P00
+# 2022-11-15
+# time spent: 
 
 from flask import Flask             #facilitate flask webserving
 from flask import render_template   #facilitate jinja templating
@@ -11,26 +11,14 @@ from flask import session           #facilitate sessions!
 from flask import redirect
 import os                           #facilitate key generation
 import sqlite3
+from accounts_db import * #imports account creation functions from accounts_db.py
 
-#DB_FILE = "PAGES"
-#db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
-#c = db.cursor()
-
-#command = "CREATE TABLE rosters(name TEXT, mark INTEGER);"
-# test SQL stmt in sqlite3 shell, save as string
-#c.execute(command)    # run SQL statement
-
-#db.commit() #save changes
-#db.close()  #close database
 
 #______________________
-
 app = Flask(__name__)    #create Flask object
 app.secret_key= os.urandom(32) #create random secret key
 #print(app.secret_key)
 
-correctuser = "user"
-correctpw = "correct!"
 
 @app.route("/", methods=['GET']) #, methods=['GET', 'POST'])
 def index():
@@ -44,7 +32,7 @@ def index():
 def authenticate():
     session['username']= request.form.get('username')   #remember user in session
     session['password'] = request.form.get('password')  #remember user in session
-    if(correctuser == request.form['username'] and correctpw == request.form['password']):
+    if( checkuser(request.form['username'], request.form['password'])):
         return render_template('home.html', username = request.form['username'], password = request.form['password'], request_method = 'POST') #response to a form submission
     else:
         return render_template('login.html', exception =  "Authentication failed, try again")
@@ -57,7 +45,12 @@ def register():
 def create_account():
     if (request.form.get('password1') != request.form.get('password2')):
         return render_template("register.html", exception = "Passwords don't match")
-    return render_template("login.html")
+    elif (request.form.get('password1') == ""):
+        return render_template("register.html", exception = "Password can't be empty!")
+    else:
+        if (create_acc(request.form['username'], request.form['password1'])): #True IF another account exist, false if no problems
+            return render_template("register.html", exception = "Username taken!")
+        return render_template("login.html")
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():

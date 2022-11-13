@@ -51,3 +51,11 @@ Jian Hong -- 2022-11-10
 Created register page
 Will create database soon...
 ==============================================================
+shreyaR -- 2022-11-12 23:53
+--------------------------------------------------------------
+Created database for usernames + passwords (ACCOUNT.db)
+Created functional log-in using db (accounts_db.py --> checkuser)
+Created functional account creation using db (accounts_db.py --> create_acc)
+aforementioned all functional with app.py!!!!!
+next steps.. account deletion? stories?
+==============================================================
