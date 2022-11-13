@@ -59,3 +59,9 @@ Created functional account creation using db (accounts_db.py --> create_acc)
 aforementioned all functional with app.py!!!!!
 next steps.. account deletion? stories?
 ==============================================================
+Jian Hong -- 2022-11-13 1:58
+--------------------------------------------------------------
+Content page
+Created some features like going back to login if you alread have an account
+Tidy up some codes
+==============================================================

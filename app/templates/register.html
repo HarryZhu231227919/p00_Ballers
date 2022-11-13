@@ -10,9 +10,12 @@
   <body>
     <h1>
       Create New account
+      <h2>
+        {{exception}}
+      </h2>
     </h1>
 
-      <form action= "/create_account" method="POST">
+      <form action= "/register" method="POST">
         <p> Username </p>
         <input type="text" name="username">
         <p> Password </p>
@@ -23,9 +26,11 @@
         <input type="submit" name="sub1">
       </form>
 
-      <h2>
-        {{exception}}
-      </h2>
-
+    <h2>
+      Already have an account?
+    </h2>
+    <form action ="/login">
+      <input type="submit" value="Login"/>
+    </form>
   <body>
 </html>

@@ -12,7 +12,28 @@
       Hello, {{username}}! This is your home page!
     <h1>
 
-      
+    <h2>
+      Profile
+    </h2>
+
+    <table>
+      <tr>
+        <th>Your stories</th>
+      </tr>
+
+      <tr>
+        <td>
+          <a href="{{ url_for('home') }}">content</a>
+        </td>
+      </tr>
+    </table>
+
+    <h2>
+      Have a look at this story!
+    </h2>
+
+    <a href="{{ url_for('home') }}">content</a>
+
     <h2>
       Done?
     <h2>
