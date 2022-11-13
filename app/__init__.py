@@ -8,6 +8,7 @@ from flask import Flask             #facilitate flask webserving
 from flask import render_template   #facilitate jinja templating
 from flask import request           #facilitate form submission
 from flask import session           #facilitate sessions!
+from flask import redirect
 import os                           #facilitate key generation
 import sqlite3
 
@@ -32,26 +33,31 @@ correctuser = "user"
 correctpw = "correct!"
 
 @app.route("/", methods=['GET']) #, methods=['GET', 'POST'])
-def disp_loginpage():
+def index():
     if 'username' in session:   #if already logged in
-        return render_template('home.html', username=session['username'], password=session['password'], request_method = "GET")
+        return render_template('/home') # username=session['username'], password=session['password'], request_method = "GET")
     else:                       #if not logged in, send user to login page
         return render_template('login.html')
 
 
-@app.route("/login", methods=['POST'])
+@app.route("/login", methods=['GET','POST'])
 def authenticate():
-    if request.method == 'POST':
-        session['username']= request.form['username']   #remember user in session
-        session['password'] = request.form['password']  #remember user in session
-        if(correctuser == request.form['username'] and correctpw == request.form['password']):
-            return render_template('home.html', username = request.form['username'], password = request.form['password'], request_method = 'POST') #response to a form submission
-        else:
-            return render_template('login.html', exception =  "Try again")
+    session['username']= request.form.get('username')   #remember user in session
+    session['password'] = request.form.get('password')  #remember user in session
+    if(correctuser == request.form['username'] and correctpw == request.form['password']):
+        return render_template('home.html', username = request.form['username'], password = request.form['password'], request_method = 'POST') #response to a form submission
+    else:
+        return render_template('login.html', exception =  "Authentication failed, try again")
 
-@app.route("/register", methods = ['POST'])
+@app.route("/register", methods = ['GET','POST'])
 def register():
-    render_template("register.html")
+    return render_template("register.html")
+
+@app.route("/create_account", methods = ['GET','POST'])
+def create_account():
+    if (request.form.get('password1') != request.form.get('password2')):
+        return render_template("register.html", exception = "Passwords don't match")
+    return render_template("login.html")
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():

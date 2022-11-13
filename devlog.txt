@@ -46,3 +46,8 @@ Jian Hong -- 2022-11-7
 Organized repo to have the stuff that was needed, finally
 getting things together
 ==============================================================
+Jian Hong -- 2022-11-10
+--------------------------------------------------------------
+Created register page
+Will create database soon...
+==============================================================
