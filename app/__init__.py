@@ -62,7 +62,8 @@ def register():
 def homepage():
     if( session != {}):
         content = list(map(int, retrieve_stories(session['username']).split()))
-        return render_template('home.html', username = session['username'], password = session['password'], request_method = 'POST',  len = len(content), content = content) #response to a form submission
+        new_content = list(map(int, all_stories(session['username']).split()))
+        return render_template('home.html', username = session['username'], password = session['password'], request_method = 'POST',  len = len(content), content = content, lenn = len(new_content), new_content=new_content) #response to a form submission
     else:
         return redirect("/login")
 
@@ -72,8 +73,10 @@ def story(id):
         if(request.method == 'GET'):
             return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = session['username'], last_editor = retrieve_storyeditor(id), id=id)  
         if(request.method == 'POST'):
-            addto_story(id, request.form['content'], session['username'])
-            return redirect('/home')
+            if(addto_story(id, request.form['content'], session['username'])):
+                return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = session['username'], last_editor = retrieve_storyeditor(id), id=id, exception = "You already contributed to this story!")
+            else:
+                return redirect('/home')
     else:
         return redirect("/login")
 
@@ -93,19 +96,6 @@ def create():
     else:
         return render_template("create_page.html")
 
-
-'''
-@app.route("/edit/<string:id>", methods=['POST'])
-def edit(id):
-    return render_template("edit.html", id = id)
-
-@app.route("/editstory/", methods=['POST'])
-def editstory(id):
-    request.form('content')
-    request.form(session['user'])
-    return render_template("edit.html", id = id)
-   
-'''
    
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
