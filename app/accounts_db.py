@@ -20,7 +20,7 @@ def checkuser(username, password): #checks if user's login is correct
     c.execute('SELECT password FROM users WHERE username = ?;', [username])
     correct_password = c.fetchone() #fetches correct password from tuple
     if correct_password is None:
-        return False;
+        return False
     else:
         return password == correct_password[0]
         
@@ -34,9 +34,9 @@ def create_acc(username, password):
     if check_user is None:
         c.execute('INSERT INTO users VALUES (?, ?);', (username, password) )
         db.commit()
-        return False;
+        return False
     else:
-        return True;
+        return True
 
 def create_story(title, content, username): #adds story to database with unique ID
     db = sqlite3.connect(DB_FILE)
@@ -47,7 +47,7 @@ def create_story(title, content, username): #adds story to database with unique 
     id = int(''.join(map(str, id)))         #scuffed
     c.execute('INSERT INTO story_content VALUES (?, ?, ?);', (id, content, username))
     db.commit()
-    return True;
+    return True
     
 def retrieve_stories(username): # retrieve all story IDs created by user
     db = sqlite3.connect(DB_FILE)
@@ -56,11 +56,23 @@ def retrieve_stories(username): # retrieve all story IDs created by user
     stories = c.fetchall();
     return "\n".join("%s" % tup for tup in stories) #scuffed
 
-def retrieve_storytitle(id):
+def retrieve_storytitle(id): # retrieve title of story using ID
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     c.execute('SELECT title FROM stories WHERE id = ?;', [id])
     title = c.fetchone();
-    return "\n".join("%s" % tup for tup in title) #scuffed
+    return ''.join(map(str, title)) #scuffed
+    
+def retrieve_storycontent(id):  # retrieve title of story using ID
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('SELECT content FROM story_content WHERE id = ?;', [id])
+    content = c.fetchone();
+    return ''.join(map(str, content)) #scuffed
 
-#def addto_story(
+def addto_story(id, content, username): # needs story ID (url), new content, and username
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('UPDATE story_content SET content = ?, last_editedby = ? WHERE id = ?;', (content, username, id))
+    db.commit()
+    return True

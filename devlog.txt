@@ -76,5 +76,7 @@ shreyaR -- 2022-11-14 02:13
 --------------------------------------------------------------
 Created function to retrieve title given story ID (accounts_db.py --> retrieve_storytitle)
 Created db table for content of story with last edited by user
+Created function to retrieve story content given ID (accounts_db.py --> retrieve_storycontent)
+Created function to edit a story's content by another user (accounts_db.py --> addto_story)
 Added testing.py for debugging purposes
 ==============================================================
