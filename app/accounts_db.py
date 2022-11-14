@@ -80,8 +80,9 @@ def retrieve_storyeditor(id):
 def addto_story(id, content, username): # needs story ID (url), new content, and username
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
+    old = retrieve_storycontent(id)
     #c.execute('UPDATE story_content SET content = ?, last_editedby = ? WHERE id = ?;', (content, username, id))
-    c.execute('INSERT INTO story_content VALUES (?, ?, ?);', (id, content, username))
+    c.execute('INSERT INTO story_content VALUES (?, ?, ?);', (id, old + " " + content, username))
     db.commit()
     return True
     

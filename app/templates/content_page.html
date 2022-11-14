@@ -10,12 +10,22 @@
   <body>
     <h1>
        {{title}}
-    <h1>
+    </h1>
 	<h3>Original author: {{author}}</h3>
 	<h4>Last edited by: {{last_editor}}</h4>
 	<p>
 	{{content}}
 	</p>
+
+	<h3>
+	  
+	  <form action = "{{ url_for('story', id=id) }}" method = 'POST'>
+	    <p> Add to the story! {{id}} </p>
+        <input type="text" name="content">
+        <input type="submit" name="sub1">
+      </form>
+
+        </h3>
 
   <body>
 </html>
