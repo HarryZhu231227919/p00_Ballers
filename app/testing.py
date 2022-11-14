@@ -7,8 +7,8 @@ from accounts_db import * #imports account creation functions from accounts_db.p
 
 print(retrieve_stories("user"))
 
-print(retrieve_storytitle(1))
+print(retrieve_storytitle(2))
 
-print(retrieve_storycontent(1))
+print(retrieve_storycontent(2))
 
-addto_story(1, "oncieuponatime", "user2")
+#addto_story(1, "oncieuponatime", "user2")

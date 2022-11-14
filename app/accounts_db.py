@@ -4,11 +4,9 @@ DB_FILE = "ACCOUNT.db"
 db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
 c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
 
-# uncomment if ACCOUNT.db is deleted and run
 c.execute("CREATE TABLE if not Exists users(username TEXT, password TEXT);")
 c.execute("CREATE TABLE if not Exists stories(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, username TEXT);")
 c.execute("CREATE TABLE if not Exists story_content(id INTEGER, content TEXT, last_editedby TEXT);")
-#c.execute('INSERT INTO users VALUES ("user", "correct!");')
 
 db.commit()
 db.close()
@@ -63,16 +61,20 @@ def retrieve_storytitle(id): # retrieve title of story using ID
     title = c.fetchone();
     return ''.join(map(str, title)) #scuffed
     
-def retrieve_storycontent(id):  # retrieve title of story using ID
+def retrieve_storycontent(id):  # retrieve most recent content of story using ID
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute('SELECT content FROM story_content WHERE id = ?;', [id])
+    #c.execute('SELECT content FROM story_content WHERE id = ?;', [id])
+    c.execute('SELECT content FROM story_content WHERE id = ? ORDER BY LENGTH(content) DESC LIMIT 1;', [id])
     content = c.fetchone();
     return ''.join(map(str, content)) #scuffed
 
 def addto_story(id, content, username): # needs story ID (url), new content, and username
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute('UPDATE story_content SET content = ?, last_editedby = ? WHERE id = ?;', (content, username, id))
+    #c.execute('UPDATE story_content SET content = ?, last_editedby = ? WHERE id = ?;', (content, username, id))
+    c.execute('INSERT INTO story_content VALUES (?, ?, ?);', (id, content, username))
     db.commit()
     return True
+    
+
