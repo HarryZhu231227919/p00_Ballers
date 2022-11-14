@@ -98,3 +98,8 @@ shreyaR -- 2022-11-14 12:04
 Create story page fully functional
 Add onto story fully functional
 ==============================================================
+shreyaR -- 2022-11-14 17:00
+--------------------------------------------------------------
+Users can now only contribute to a story once.
+Explore other stories is implemented.
+==============================================================

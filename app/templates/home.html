@@ -33,6 +33,11 @@
     <h2>
       Have a look at this story!
     </h2>
+	<h3>
+	{%for i in range(0,lenn)%}
+	<a href ="{{ url_for('story', id=new_content[i]) }}"> {{new_content[i]}}</a> <br>
+	{%endfor%}
+	</h3>
 
     <h2>
       Done?
