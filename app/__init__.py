@@ -66,10 +66,14 @@ def homepage():
     else:
         return redirect("/login")
 
-@app.route("/route_content/<string:id>")
+@app.route("/route_content/<string:id>", methods=['GET', 'POST'])
 def story(id):
     if(session != {}):
-        return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = session['username'], last_editor = retrieve_storyeditor(id))  
+        if(request.method == 'GET'):
+            return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = session['username'], last_editor = retrieve_storyeditor(id), id=id)  
+        if(request.method == 'POST'):
+            addto_story(id, request.form['content'], session['username'])
+            return redirect('/home')
     else:
         return redirect("/login")
 
@@ -89,14 +93,20 @@ def create():
     else:
         return render_template("create_page.html")
 
+
+'''
 @app.route("/edit/<string:id>", methods=['POST'])
 def edit(id):
     return render_template("edit.html", id = id)
 
-@app.route("/editstory/<string:id>", methods=['POST'])
+@app.route("/editstory/", methods=['POST'])
 def editstory(id):
+    request.form('content')
+    request.form(session['user'])
     return render_template("edit.html", id = id)
-    
+   
+'''
+   
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
     app.debug = True

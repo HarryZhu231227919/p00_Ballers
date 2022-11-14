@@ -18,9 +18,12 @@
 	</p>
 
 	<h3>
-	  <a href = "{{ url_for('edit', id = id )}}">
-    	    <input type="submit" value="Add to story"/>
-	  </a>
+	  
+	  <form action = "{{ url_for('story', id=id) }}" method = 'POST'>
+	    <p> Add to the story! {{id}} </p>
+        <input type="text" name="content">
+        <input type="submit" name="sub1">
+      </form>
 
         </h3>
 
