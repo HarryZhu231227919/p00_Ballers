@@ -65,3 +65,10 @@ Content page
 Created some features like going back to login if you alread have an account
 Tidy up some codes
 ==============================================================
+shreyaR -- 2022-11-14 00:20 
+--------------------------------------------------------------
+Created db table for stories
+Created functional create new story, generating unique ID (accounts_db.py --> create_story)
+Created functional retrieving all stories created by user (accounts_db.py --> retrieve_stories)
+Line 37 of __init__.py altered to retrieve all stories created by currently logged in user
+==============================================================
