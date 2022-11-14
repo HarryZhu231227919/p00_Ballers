@@ -23,7 +23,7 @@ app.secret_key= os.urandom(32) #create random secret key
 @app.route("/", methods=['GET']) #, methods=['GET', 'POST'])
 def index():
     if 'username' in session:   #if already logged in
-        return render_template('/home') # username=session['username'], password=session['password'], request_method = "GET")
+        return redirect('/home') # username=session['username'], password=session['password'], request_method = "GET")
     else:                       #if not logged in, send user to login page
         return render_template('login.html')
 
@@ -34,11 +34,15 @@ def authenticate():
         session['username']= request.form.get('username')   #remember user in session
         session['password'] = request.form.get('password')  #remember user in session
         if( checkuser(request.form['username'], request.form['password'])):
-            return render_template('home.html', username = request.form['username'], password = request.form['password'], request_method = 'POST',  content = retrieve_stories(request.form['username'])) #response to a form submission
+            #return render_template('home.html', username = request.form['username'], password = request.form['password'], request_method = 'POST',  content = retrieve_stories(request.form['username'])) #response to a form submission
+            return redirect('/home')
         else:
             return render_template('login.html', exception =  "Authentication failed, try again")
     else:
-        return render_template('login.html')
+        if(session != {}):
+            return redirect("/home")
+        else:
+            return render_template('login.html')
 
 @app.route("/register", methods = ['GET','POST'])
 def register():
@@ -54,11 +58,20 @@ def register():
     else:
         return render_template("register.html")
 
+@app.route("/home")
+def homepage():
+    if( session != {}):
+        content = list(map(int, retrieve_stories(session['username']).split()))
+        return render_template('home.html', username = session['username'], password = session['password'], request_method = 'POST',  len = len(content), content = content) #response to a form submission
+    else:
+        return redirect("/login")
 
-@app.route("/route_content")
-def home():
-    return render_template("content_page.html")
-
+@app.route("/route_content/<string:id>")
+def story(id):
+    if(session != {}):
+        return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = session['username'], last_editor = retrieve_storyeditor(id))  
+    else:
+        return redirect("/login")
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
@@ -68,7 +81,13 @@ def logout():
             session.pop('password') #un-remember password
         return render_template('login.html')
 
-
+@app.route("/create", methods=['GET', 'POST'])
+def create():
+    if (request.method == "POST"):
+        create_story(request.form['title'], request.form['story'])
+        return redirect("/home")
+    else:
+        return render_template("create_page.html")
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified

@@ -72,3 +72,24 @@ Created functional create new story, generating unique ID (accounts_db.py --> cr
 Created functional retrieving all stories created by user (accounts_db.py --> retrieve_stories)
 Line 37 of __init__.py altered to retrieve all stories created by currently logged in user
 ==============================================================
+shreyaR -- 2022-11-14 02:13
+--------------------------------------------------------------
+Created function to retrieve title given story ID (accounts_db.py --> retrieve_storytitle)
+Created db table for content of story with last edited by user
+Created function to retrieve story content given ID (accounts_db.py --> retrieve_storycontent)
+Created function to edit a story's content by another user (accounts_db.py --> addto_story)
+Added testing.py for debugging purposes
+==============================================================
+shreyaR -- 2022-11-14 09:23
+--------------------------------------------------------------
+Fixed up editing story content
+Everything related to database management is completed & working (afaik)
+==============================================================
+shreyaR -- 2022-11-14 12:04
+--------------------------------------------------------------
+Implemented functional content page (retrieves story from db)
+Included redirects to homepage
+Stories on homepage now show up with separate hyperlinks and on new line
+Each hyperlink redirects to separate page with story 
+Added create story page (not fully functional yet)
+==============================================================
