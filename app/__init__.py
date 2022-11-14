@@ -68,8 +68,10 @@ def homepage():
 
 @app.route("/route_content/<string:id>")
 def story(id):
-    return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = session['username'], last_editor = retrieve_storyeditor(id))  
-
+    if(session != {}):
+        return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = session['username'], last_editor = retrieve_storyeditor(id))  
+    else:
+        return redirect("/login")
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
@@ -79,7 +81,13 @@ def logout():
             session.pop('password') #un-remember password
         return render_template('login.html')
 
-
+@app.route("/create", methods=['GET', 'POST'])
+def create():
+    if (request.method == "POST"):
+        create_story(request.form['title'], request.form['story'])
+        return redirect("/home")
+    else:
+        return render_template("create_page.html")
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
