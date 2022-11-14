@@ -34,7 +34,7 @@ def authenticate():
         session['username']= request.form.get('username')   #remember user in session
         session['password'] = request.form.get('password')  #remember user in session
         if( checkuser(request.form['username'], request.form['password'])):
-            return render_template('home.html', username = request.form['username'], password = request.form['password'], request_method = 'POST') #response to a form submission
+            return render_template('home.html', username = request.form['username'], password = request.form['password'], request_method = 'POST',  content = retrieve_stories(request.form['username'])) #response to a form submission
         else:
             return render_template('login.html', exception =  "Authentication failed, try again")
     else:
@@ -74,3 +74,5 @@ if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
     app.debug = True
     app.run()
+
+
