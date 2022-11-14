@@ -84,11 +84,19 @@ def logout():
 @app.route("/create", methods=['GET', 'POST'])
 def create():
     if (request.method == "POST"):
-        create_story(request.form['title'], request.form['story'])
+        create_story(request.form['title'], request.form['story'], session['username'])
         return redirect("/home")
     else:
         return render_template("create_page.html")
 
+@app.route("/edit/<string:id>", methods=['POST'])
+def edit(id):
+    return render_template("edit.html", id = id)
+
+@app.route("/editstory/<string:id>", methods=['POST'])
+def editstory(id):
+    return render_template("edit.html", id = id)
+    
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
     app.debug = True

@@ -10,12 +10,19 @@
   <body>
     <h1>
        {{title}}
-    <h1>
+    </h1>
 	<h3>Original author: {{author}}</h3>
 	<h4>Last edited by: {{last_editor}}</h4>
 	<p>
 	{{content}}
 	</p>
+
+	<h3>
+	  <a href = "{{ url_for('edit', id = id )}}">
+    	    <input type="submit" value="Add to story"/>
+	  </a>
+
+        </h3>
 
   <body>
 </html>
