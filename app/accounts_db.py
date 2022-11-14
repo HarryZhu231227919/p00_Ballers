@@ -6,7 +6,8 @@ c = db.cursor()               #facilitate db ops -- you will use cursor to trigg
 
 # uncomment if ACCOUNT.db is deleted and run
 c.execute("CREATE TABLE if not Exists users(username TEXT, password TEXT);")
-c.execute("CREATE TABLE if not Exists stories(id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT, username TEXT);")
+c.execute("CREATE TABLE if not Exists stories(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, username TEXT);")
+c.execute("CREATE TABLE if not Exists story_content(id INTEGER, content TEXT, last_editedby TEXT);")
 #c.execute('INSERT INTO users VALUES ("user", "correct!");')
 
 db.commit()
@@ -37,10 +38,14 @@ def create_acc(username, password):
     else:
         return True;
 
-def create_story(content, username): #adds story to database with unique ID
+def create_story(title, content, username): #adds story to database with unique ID
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute('INSERT INTO stories(content, username) VALUES (?, ?);', (content, username) )
+    c.execute('INSERT INTO stories(title, username) VALUES (?, ?);', (title, username) )
+    c.execute("SELECT id FROM stories ORDER BY id DESC LIMIT 1;")
+    id = c.fetchone();
+    id = int(''.join(map(str, id)))         #scuffed
+    c.execute('INSERT INTO story_content VALUES (?, ?, ?);', (id, content, username))
     db.commit()
     return True;
     
@@ -49,7 +54,13 @@ def retrieve_stories(username): # retrieve all story IDs created by user
     c = db.cursor()
     c.execute('SELECT id FROM stories WHERE username = ?;', [username])
     stories = c.fetchall();
-    return "\n".join("%s" % tup for tup in stories)
+    return "\n".join("%s" % tup for tup in stories) #scuffed
 
-    
+def retrieve_storytitle(id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('SELECT title FROM stories WHERE id = ?;', [id])
+    title = c.fetchone();
+    return "\n".join("%s" % tup for tup in title) #scuffed
+
 #def addto_story(

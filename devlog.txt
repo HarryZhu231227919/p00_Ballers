@@ -72,3 +72,9 @@ Created functional create new story, generating unique ID (accounts_db.py --> cr
 Created functional retrieving all stories created by user (accounts_db.py --> retrieve_stories)
 Line 37 of __init__.py altered to retrieve all stories created by currently logged in user
 ==============================================================
+shreyaR -- 2022-11-14 02:13
+--------------------------------------------------------------
+Created function to retrieve title given story ID (accounts_db.py --> retrieve_storytitle)
+Created db table for content of story with last edited by user
+Added testing.py for debugging purposes
+==============================================================
