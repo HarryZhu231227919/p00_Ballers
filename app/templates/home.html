@@ -23,7 +23,9 @@
 
       <tr>
         <td>
-          <a href="{{ url_for('home') }}"> {{content}}</a>
+		  {%for i in range(0,len)%}
+          <a href="{{ url_for('story', id=content[i]) }}"> {{content[i]}}</a> <br>
+		  {%endfor%}
         </td>
       </tr>
     </table>
@@ -31,8 +33,6 @@
     <h2>
       Have a look at this story!
     </h2>
-
-    <a href="{{ url_for('home') }}">content</a>
 
     <h2>
       Done?
