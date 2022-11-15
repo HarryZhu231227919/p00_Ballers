@@ -7,6 +7,8 @@ from accounts_db import * #imports account creation functions from accounts_db.p
 
 print(retrieve_stories("user"))
 
+print(all_stories("user2"))
+
 print(retrieve_storytitle(2))
 
 print(retrieve_storycontent(2))

@@ -23,8 +23,8 @@
 
       <tr>
         <td>
-		  {%for i in range(0,len)%}
-          <a href="{{ url_for('story', id=content[i]) }}"> {{content[i]}}</a> <br>
+		  {%for i in range(0,old_len)%}
+          <a href="{{ url_for('story', id=old_content[i]) }}"> {{titles[i]}}</a> <br>
 		  {%endfor%}
         </td>
       </tr>
@@ -34,8 +34,8 @@
       Have a look at this story!
     </h2>
 	<h3>
-	{%for i in range(0,lenn)%}
-	<a href ="{{ url_for('story', id=new_content[i]) }}"> {{new_content[i]}}</a> <br>
+	{%for i in range(0,new_len)%}
+	<a href ="{{ url_for('story', id=new_content[i]) }}"> {{new_titles[i]}}</a> <br>
 	{%endfor%}
 	</h3>
 
