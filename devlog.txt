@@ -103,3 +103,9 @@ shreyaR -- 2022-11-14 17:00
 Users can now only contribute to a story once.
 Explore other stories is implemented.
 ==============================================================
+shreyaR -- 2022-11-14 21:00
+--------------------------------------------------------------
+Users can now only see the previous addition until they add their own.
+Other small fixes.
+Cleared the database btw, was getting kind of messy.
+==============================================================
