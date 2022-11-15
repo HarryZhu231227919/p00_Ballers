@@ -106,6 +106,17 @@ Explore other stories is implemented.
 shreyaR -- 2022-11-14 21:00
 --------------------------------------------------------------
 Users can now only see the previous addition until they add their own.
+Contributed stories is now separate.
 Other small fixes.
 Cleared the database btw, was getting kind of messy.
+==============================================================
+Jian Hong -- 2022-11-14 21:32
+--------------------------------------------------------------
+Go back to home button after viewing story
+Fixes
+==============================================================
+shreyaR -- 2022-11-14 22:30
+--------------------------------------------------------------
+Making sure everything is up and working.
+Cleaning up / renaming files more appropriately.
 ==============================================================

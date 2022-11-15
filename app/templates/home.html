@@ -12,15 +12,22 @@
       Hello, {{username}}! This is your home page!
     <h1>
 
-    <h2>Your stories</h2>
+    <h2>Your authored stories</h2>
+		  <h3>
+		  {%for i in range(0,created_len)%}
+          <a href="{{ url_for('story', id=created_content[i]) }}"> {{created_titles[i]}}</a> <br>
+		  {%endfor%}
+          </h3>
+		  
+	<h2>Stories you contributed to:</h2>
 		  <h3>
 		  {%for i in range(0,old_len)%}
-          <a href="{{ url_for('story', id=old_content[i]) }}"> {{titles[i]}}</a> <br>
+          <a href="{{ url_for('story', id=old_content[i]) }}"> {{old_titles[i]}}</a> <br>
 		  {%endfor%}
           </h3>
 
     <h2>
-      Have a look at this story!
+      All stories:
     </h2>
 	<h3>
 	{%for i in range(0,new_len)%}
