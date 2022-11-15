@@ -9,17 +9,18 @@
 
   <body>
     <h1>
-      Hello, {{username}}! This is your home page!
-    <h1>
+      Hello, {{username}}! This is your Home Page!
+	  <hr>
+	  <h1>
 
-    <h2>Your authored stories</h2>
+    <h2>Your Authored Stories</h2>
 		  <h3>
 		  {%for i in range(0,created_len)%}
           <a href="{{ url_for('story', id=created_content[i]) }}"> {{created_titles[i]}}</a> <br>
 		  {%endfor%}
           </h3>
 		  
-	<h2>Stories you contributed to:</h2>
+	<h2>Stories You Contributed to:</h2>
 		  <h3>
 		  {%for i in range(0,old_len)%}
           <a href="{{ url_for('story', id=old_content[i]) }}"> {{old_titles[i]}}</a> <br>
@@ -27,7 +28,7 @@
           </h3>
 
     <h2>
-      All stories:
+      All Stories:
     </h2>
 	<h3>
 	{%for i in range(0,new_len)%}
@@ -39,14 +40,16 @@
       Done?
     <h2>
 	<form>
-	  <button type="submit" formaction="http://127.0.0.1:5000/logout" method="GET">Logout Here!</button>
+	  <button title = "Logout" type="submit" formaction="http://127.0.0.1:5000/logout" method="GET">Logout Here!
+		
+	  </button>
 	</form>
 	
 	<h2>
-	  Want to start a new story?
+	  Want to Start a New Story?
 	</h2>
 	<form>
-	  <button type="submit" formaction="http://127.0.0.1:5000/create" method="GET">Create a story here</button>
+	  <button title = "New Story" type="submit" formaction="http://127.0.0.1:5000/create" method="GET">Create a Story here</button>
 	</form>
 
   <body>
