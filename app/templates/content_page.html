@@ -4,7 +4,7 @@
 <html>
 
   <head>
-    <title>{{title}}</title>
+    <title>{{title}} -- {{id}}</title>
   </head>
 
   <body>
@@ -20,7 +20,7 @@
 	<h3>
 	  
 	  <form action = "{{ url_for('story', id=id) }}" method = 'POST'>
-	    <p> Add to the story! {{id}} </p>
+	    <p> Add to the story!  </p>
         <input type="text" name="content">
         <input type="submit" name="sub1">
       </form>
