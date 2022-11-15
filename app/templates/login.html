@@ -22,6 +22,7 @@
   <body>
     <h1>
       Welcome, Travelers of the Intertoobz!
+      <hr>
     </h1>
 
 
@@ -29,9 +30,11 @@
       Enter your username & password below to proceed.
     </h3>
     <form action= "/login" method="POST">
-      <input type="text" name="username">
-      <input type="password" name="password">
-      <input type="submit">
+      <p> Username </p>
+      <input type="text" name="username" placeholder= "Enter your username">
+      <p> Password </p>
+      <input type="password" name="password" placeholder= "Enter your password">
+      <input title = "Submit" type="submit">
     </form>
 
 
@@ -42,7 +45,7 @@
     <h3>
       Don't have an account? <br>
       <form action ="/register">
-    	  <input type="submit" value="Signup Here"/>
+    	  <input title = "Create Account" type="submit" value="Signup Here"/>
     	</form>
     </h3>
   </body>
