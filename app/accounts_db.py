@@ -52,7 +52,10 @@ def retrieve_stories(username): # retrieve all story IDs created by user
     c = db.cursor()
     c.execute('SELECT id FROM stories WHERE username = ?;', [username])
     stories = c.fetchall();
-    return " ".join("%s" % tup for tup in stories) #scuffed
+    list = []
+    for tuple in stories:
+        list.append( tuple[0])
+    return list
 
 def retrieve_storytitle(id): # retrieve title of story using ID
     db = sqlite3.connect(DB_FILE)
@@ -76,6 +79,14 @@ def retrieve_storyeditor(id):
     c.execute('SELECT last_editedby FROM story_content WHERE id = ? ORDER BY LENGTH(content) DESC LIMIT 1;', [id])
     content = c.fetchone();
     return content[0]
+    
+def retrieve_storyauthor(id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    #c.execute('SELECT content FROM story_content WHERE id = ?;', [id])
+    c.execute('SELECT username FROM stories WHERE id = ?;', [id])
+    author = c.fetchone();
+    return author[0]
 
 def addto_story(id, content, username): # needs story ID (url), new content, and username
     db = sqlite3.connect(DB_FILE)
@@ -83,12 +94,12 @@ def addto_story(id, content, username): # needs story ID (url), new content, and
     old = retrieve_storycontent(id)
     c.execute('SELECT last_editedby FROM story_content WHERE id = ? AND last_editedby = ?;', (id, username))
     oldedit = c.fetchone();
-    if(username == oldedit[0]):
-        return True
-    else:
+    if oldedit is None:
         c.execute('INSERT INTO story_content VALUES (?, ?, ?);', (id, old + " " + content, username))
         db.commit()
         return False
+    else:
+        return True
     
     
 def all_stories(username):
@@ -96,7 +107,16 @@ def all_stories(username):
     c = db.cursor()
     c.execute('SELECT id FROM stories WHERE username != ?;', [username])
     stories = c.fetchall();
-    return " ".join("%s" % tup for tup in stories) #scuffed
+    list = []
+    for tuple in stories:
+        list.append( tuple[0])
+    return list
+    
+def titles_list(list):
+    titles = []
+    for x in list:
+        titles.append(retrieve_storytitle(x))
+    return titles
 
 
 #function not currently being used for anything, might be helpful in future

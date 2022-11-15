@@ -61,9 +61,13 @@ def register():
 @app.route("/home")
 def homepage():
     if( session != {}):
-        content = list(map(int, retrieve_stories(session['username']).split()))
-        new_content = list(map(int, all_stories(session['username']).split()))
-        return render_template('home.html', username = session['username'], password = session['password'], request_method = 'POST',  len = len(content), content = content, lenn = len(new_content), new_content=new_content) #response to a form submission
+        #content = list(map(int, retrieve_stories(session['username']).split()))
+        old_content = retrieve_stories(session['username'])
+        titles = titles_list(old_content)
+        new_content = all_stories(session['username'])
+        new_titles = titles_list(new_content)
+        #new_content = list(map(int, all_stories(session['username']).split()))
+        return render_template('home.html', username = session['username'], request_method = 'POST',  new_len = len(new_content), old_content = old_content, new_content = new_content, titles = titles, old_len = len(old_content), new_titles=new_titles) #response to a form submission
     else:
         return redirect("/login")
 
@@ -74,7 +78,7 @@ def story(id):
             return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = session['username'], last_editor = retrieve_storyeditor(id), id=id)  
         if(request.method == 'POST'):
             if(addto_story(id, request.form['content'], session['username'])):
-                return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = session['username'], last_editor = retrieve_storyeditor(id), id=id, exception = "You already contributed to this story!")
+                return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = retrieve_storyauthor(id), last_editor = retrieve_storyeditor(id), id=id, exception = "You already contributed to this story!")
             else:
                 return redirect('/home')
     else:
