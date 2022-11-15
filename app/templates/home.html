@@ -12,23 +12,12 @@
       Hello, {{username}}! This is your home page!
     <h1>
 
-    <h2>
-      Profile
-    </h2>
-
-    <table>
-      <tr>
-        <th>Your stories</th>
-      </tr>
-
-      <tr>
-        <td>
+    <h2>Your stories</h2>
+		  <h3>
 		  {%for i in range(0,old_len)%}
           <a href="{{ url_for('story', id=old_content[i]) }}"> {{titles[i]}}</a> <br>
 		  {%endfor%}
-        </td>
-      </tr>
-    </table>
+          </h3>
 
     <h2>
       Have a look at this story!
