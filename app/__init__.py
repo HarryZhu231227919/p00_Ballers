@@ -2,7 +2,6 @@
 # SoftDev pd8
 # P00
 # 2022-11-15
-# time spent:
 
 from flask import Flask             #facilitate flask webserving
 from flask import render_template   #facilitate jinja templating
@@ -11,7 +10,7 @@ from flask import session           #facilitate sessions!
 from flask import redirect
 import os                           #facilitate key generation
 import sqlite3
-from accounts_db import * #imports account creation functions from accounts_db.py
+from app_db import * #imports account creation functions from accounts_db.py
 
 
 #______________________
@@ -34,7 +33,6 @@ def authenticate():
         session['username']= request.form.get('username')   #remember user in session
         session['password'] = request.form.get('password')  #remember user in session
         if( checkuser(request.form['username'], request.form['password'])):
-            #return render_template('home.html', username = request.form['username'], password = request.form['password'], request_method = 'POST',  content = retrieve_stories(request.form['username'])) #response to a form submission
             return redirect('/home')
         else:
             return render_template('login.html', exception =  "Authentication failed, try again")
@@ -61,13 +59,13 @@ def register():
 @app.route("/home")
 def homepage():
     if( session != {}):
-        #content = list(map(int, retrieve_stories(session['username']).split()))
-        old_content = retrieve_stories(session['username'])
-        titles = titles_list(old_content)
+        created_content = retrieve_stories(session['username'])
+        created_titles = titles_list(created_content)
+        old_content = contributed_stories(session['username'])
+        old_titles = titles_list(old_content)
         new_content = all_stories(session['username'])
         new_titles = titles_list(new_content)
-        #new_content = list(map(int, all_stories(session['username']).split()))
-        return render_template('home.html', username = session['username'], request_method = 'POST',  new_len = len(new_content), old_content = old_content, new_content = new_content, titles = titles, old_len = len(old_content), new_titles=new_titles) #response to a form submission
+        return render_template('home.html', username = session['username'], request_method = 'POST',  new_len = len(new_content), created_content = created_content, new_content = new_content, created_titles = created_titles, created_len = len(created_content), new_titles=new_titles, old_len = len(old_content), old_content=old_content, old_titles=old_titles) #response to a form submission
     else:
         return redirect("/login")
 
@@ -83,7 +81,7 @@ def story(id):
             if(addto_story(id, request.form['content'], session['username'])):
                 return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = retrieve_storyauthor(id), last_editor = retrieve_storyeditor(id), id=id, exception = "You already contributed to this story!")
             else:
-                return redirect('/home')
+                return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_fullstory(id), author = retrieve_storyauthor(id), last_editor = retrieve_storyeditor(id), id=id)
     else:
         return redirect("/login")
 
