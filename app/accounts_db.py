@@ -5,7 +5,7 @@ db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
 c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
 
 c.execute("CREATE TABLE if not Exists users(username TEXT, password TEXT);")
-c.execute("CREATE TABLE if not Exists stories(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, username TEXT);")
+c.execute("CREATE TABLE if not Exists stories(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, username TEXT, fullstory TEXT);")
 c.execute("CREATE TABLE if not Exists story_content(id INTEGER, content TEXT, last_editedby TEXT);")
 
 db.commit()
@@ -39,7 +39,7 @@ def create_acc(username, password):
 def create_story(title, content, username): #adds story to database with unique ID
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute('INSERT INTO stories(title, username) VALUES (?, ?);', (title, username) )
+    c.execute('INSERT INTO stories(title, username, fullstory) VALUES (?, ?, ?);', (title, username, content) )
     c.execute("SELECT id FROM stories ORDER BY id DESC LIMIT 1;")
     id = c.fetchone();
     id = int(''.join(map(str, id)))         #scuffed
@@ -71,6 +71,13 @@ def retrieve_storycontent(id):  # retrieve most recent content of story using ID
     c.execute('SELECT content FROM story_content WHERE id = ? ORDER BY LENGTH(content) DESC LIMIT 1;', [id])
     content = c.fetchone();
     return content[0]
+    
+def retrieve_fullstory(id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('SELECT fullstory FROM stories WHERE id = ?;', [id])
+    content = c.fetchone();
+    return content[0]
 
 def retrieve_storyeditor(id):
     db = sqlite3.connect(DB_FILE)
@@ -92,14 +99,23 @@ def addto_story(id, content, username): # needs story ID (url), new content, and
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     old = retrieve_storycontent(id)
-    c.execute('SELECT last_editedby FROM story_content WHERE id = ? AND last_editedby = ?;', (id, username))
-    oldedit = c.fetchone();
-    if oldedit is None:
-        c.execute('INSERT INTO story_content VALUES (?, ?, ?);', (id, old + " " + content, username))
+    if check_edit(id, username):
+        c.execute('INSERT INTO story_content VALUES (?, ?, ?);', (id, content, username))
+        c.execute('UPDATE stories SET fullstory = ? WHERE id = ?;', (old + " " + content, id))
         db.commit()
         return False
     else:
         return True
+        
+def check_edit(id, username):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('SELECT last_editedby FROM story_content WHERE id = ? AND last_editedby = ?;', (id, username))
+    oldedit = c.fetchone();
+    if oldedit is None:
+        return True # True: No old edit, new editor
+    else:
+        return False # Story already edited
     
     
 def all_stories(username):
