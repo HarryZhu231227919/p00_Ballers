@@ -81,7 +81,7 @@ def retrieve_fullstory(id):
 def retrieve_storyeditor(id):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute('SELECT last_editedby FROM story_content WHERE id = ? ORDER BY LENGTH(content) DESC LIMIT 1;', [id])
+    c.execute('SELECT last_editedby FROM story_content WHERE id = ? ORDER BY placement DESC LIMIT 1;', [id])
     content = c.fetchone();
     return content[0]
     
@@ -95,7 +95,7 @@ def retrieve_storyauthor(id):
 def addto_story(id, content, username): # needs story ID (url), new content, and username
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    old = retrieve_storycontent(id)
+    old = retrieve_fullstory(id)
     if check_edit(id, username):
         c.execute('INSERT INTO story_content(id, content, last_editedby) VALUES (?, ?, ?);', (id, content, username))
         c.execute('UPDATE stories SET fullstory = ? WHERE id = ?;', (old + " " + content, id))
