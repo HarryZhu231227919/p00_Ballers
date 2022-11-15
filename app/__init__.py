@@ -75,7 +75,10 @@ def homepage():
 def story(id):
     if(session != {}):
         if(request.method == 'GET'):
-            return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = retrieve_storyauthor(id), last_editor = retrieve_storyeditor(id), id=id)  
+            if(check_edit(id, session['username'])):
+                return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = retrieve_storyauthor(id), last_editor = retrieve_storyeditor(id), id=id)  
+            else:
+                return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_fullstory(id), author = retrieve_storyauthor(id), last_editor = retrieve_storyeditor(id), id=id)
         if(request.method == 'POST'):
             if(addto_story(id, request.form['content'], session['username'])):
                 return render_template("content_page.html", title = retrieve_storytitle(id), content = retrieve_storycontent(id), author = retrieve_storyauthor(id), last_editor = retrieve_storyeditor(id), id=id, exception = "You already contributed to this story!")
